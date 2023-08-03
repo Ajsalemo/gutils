@@ -30,7 +30,7 @@ func main() {
         return
     }
 
-	fmt.Println(gitAddStdOut)
+	fmt.Println(string(gitAddStdOut))
 
 	gitCommitStdOut, err := gitCommit.Output()
 
@@ -39,7 +39,7 @@ func main() {
         return
     }
 
-	fmt.Println(gitCommitStdOut)
+	fmt.Println(string(gitCommitStdOut))
 
 	gitPushStdOut, err := gitPush.Output()
 
@@ -48,6 +48,6 @@ func main() {
         return
     }
 
-	fmt.Println(gitPushStdOut)
+	fmt.Println(string(gitPushStdOut))
 }
 
