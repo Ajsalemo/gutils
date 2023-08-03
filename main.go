@@ -48,12 +48,18 @@ func main() {
 
 	fmt.Println(string(gitCommitStdOut))
 
-	gitPushStdOut, err := gitPush.Output()
+	gitPushStdOut, err := gitPush.StdoutPipe()
 
 	if err != nil {
 		fmt.Println(err.Error())
 		return
 	}
 
-	fmt.Println(string(gitPushStdOut))
+    if err := gitPush.Start(); err != nil {
+        log.Fatal(err)
+    }
+
+	data2, _ := io.ReadAll(gitPushStdOut)
+	fmt.Println(data2)
+
 }
