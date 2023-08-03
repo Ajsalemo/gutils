@@ -1,13 +1,14 @@
 package main
 
 import (
-	"fmt"
 	"flag"
+	"fmt"
+	"io"
 	"os/exec"
+	"log"
 )
 
 func main() {
-	fmt.Println("gutils")
 	// Define a flag for the commit message to git
 	commitMessage := flag.String("c", "initial commit", "A commit message - defaults to 'initial commit'")
 	// Define a flag for the git remote
@@ -17,43 +18,42 @@ func main() {
 	// Parse all input
 	flag.Parse()
 
-	// flags package expects pointers back to the original values
-	fmt.Println(*commitMessage)
-	fmt.Println(*gitRemote)
-	fmt.Println(*gitBranch)
-
 	// git add .
 	gitAdd := exec.Command("git", "add", ".")
-	// git commit [commit message] 
+	// git commit [commit message]
 	gitCommit := exec.Command("git", "commit", "-m", *commitMessage)
 	// git push [remote] [branch]
 	gitPush := exec.Command("git", "push", *gitRemote, *gitBranch)
 
-	gitAddStdOut, err := gitAdd.Output()
+	gitAddStdOut, err := gitAdd.StdoutPipe()
 
 	if err != nil {
-        fmt.Println(err.Error())
-        return
+		fmt.Println(err.Error())
+		return
+	}
+
+    if err := gitAdd.Start(); err != nil {
+        log.Fatal(err)
     }
 
-	fmt.Println(string(gitAddStdOut))
+	data, _ := io.ReadAll(gitAddStdOut)
+	fmt.Println(data)
 
 	gitCommitStdOut, err := gitCommit.Output()
 
 	if err != nil {
-        fmt.Println(err.Error())
-        return
-    }
+		fmt.Println(err.Error())
+		return
+	}
 
 	fmt.Println(string(gitCommitStdOut))
 
 	gitPushStdOut, err := gitPush.Output()
 
 	if err != nil {
-        fmt.Println(err.Error())
-        return
-    }
+		fmt.Println(err.Error())
+		return
+	}
 
 	fmt.Println(string(gitPushStdOut))
 }
-
