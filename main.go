@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"flag"
+	"os/exec"
 )
 
 func main() {
@@ -14,4 +15,39 @@ func main() {
 	fmt.Println(*commitMessage)
 	fmt.Println(*gitRemote)
 	fmt.Println(*gitBranch)
+
+	// git add .
+	gitAdd := exec.Command("git", "add", ".")
+	// git commit [commit message] 
+	gitCommit := exec.Command("git", "commit", "-m", *commitMessage)
+	// git push [remote] [branch]
+	gitPush := exec.Command("git", "push", *gitRemote, *gitBranch)
+
+	gitAddStdOut, err := gitAdd.Output()
+
+	if err != nil {
+        fmt.Println(err.Error())
+        return
+    }
+
+	fmt.Println(gitAddStdOut)
+
+	gitCommitStdOut, err := gitCommit.Output()
+
+	if err != nil {
+        fmt.Println(err.Error())
+        return
+    }
+
+	fmt.Println(gitCommitStdOut)
+
+	gitPushStdOut, err := gitPush.Output()
+
+	if err != nil {
+        fmt.Println(err.Error())
+        return
+    }
+
+	fmt.Println(gitPushStdOut)
 }
+
