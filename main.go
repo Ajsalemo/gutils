@@ -3,8 +3,23 @@ package main
 import (
 	"fmt"
 	"flag"
+	"os"
 	"os/exec"
+	"log"
 )
+
+func executeGitAdd() {
+	// git add .
+	gitAdd := exec.Command("git", "add", ".")
+
+	gitAdd.Stdout = os.Stdout
+	gitAdd.Stderr = os.Stderr
+
+	err := gitAdd.Run()
+	if err != nil {
+		log.Fatalf("git add failed: %s", err)
+	}
+}
 
 func main() {
 	fmt.Println("gutils")
@@ -23,20 +38,13 @@ func main() {
 	fmt.Println(*gitBranch)
 
 	// git add .
-	gitAdd := exec.Command("git", "add", ".")
+	executeGitAdd()
 	// git commit [commit message] 
 	gitCommit := exec.Command("git", "commit", "-m", *commitMessage)
 	// git push [remote] [branch]
 	gitPush := exec.Command("git", "push", *gitRemote, *gitBranch)
 
-	gitAddStdOut, err := gitAdd.Output()
 
-	if err != nil {
-        fmt.Println(err.Error())
-        return
-    }
-
-	fmt.Println(string(gitAddStdOut))
 
 	gitCommitStdOut, err := gitCommit.Output()
 
