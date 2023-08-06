@@ -49,7 +49,7 @@ func executeGitPush(gitRemote string, gitBranch string) {
 }
 
 func main() {
-	myFigure := figure.NewColorFigure("gutils", "", "cyan", true)
+	myFigure := figure.NewColorFigure("gutils", "", "blue", true)
 	myFigure.Print()
 	// Define a flag for the commit message to git
 	commitMessage := flag.String("c", "initial commit", "A commit message - defaults to 'initial commit'")
