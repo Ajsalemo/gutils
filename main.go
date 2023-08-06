@@ -11,7 +11,7 @@ import (
 )
 
 func executeGitAdd() {
-	fmt.Println("v1.0")
+	fmt.Println("\n")
 	// git add .
 	gitAdd := exec.Command("git", "add", ".")
 	gitAdd.Stdout = os.Stdout
