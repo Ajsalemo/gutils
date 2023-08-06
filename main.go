@@ -30,7 +30,19 @@ func executeGitCommit(commitMessage string) {
 	if err != nil {
 		log.Fatalf("git add failed: %s", err)
 	}
+}
 
+func executeGitRemote(gitRemote string, gitBranch string) {
+	// git push [remote] [branch]
+	gitPush := exec.Command("git", "push", gitRemote, gitBranch)
+
+	gitPush.Stdout = os.Stdout
+	gitPush.Stderr = os.Stderr
+
+	err := gitPush.Run()
+	if err != nil {
+		log.Fatalf("git add failed: %s", err)
+	}
 }
 
 func main() {
@@ -45,24 +57,11 @@ func main() {
 	flag.Parse()
 
 	// flags package expects pointers back to the original values
-	fmt.Println(*commitMessage)
-	fmt.Println(*gitRemote)
-	fmt.Println(*gitBranch)
-
 	// git add .
 	executeGitAdd()
 	// git commit [commit message] 
 	executeGitCommit(*commitMessage)
 	// git push [remote] [branch]
-	gitPush := exec.Command("git", "push", *gitRemote, *gitBranch)
-
-	gitPushStdOut, err := gitPush.Output()
-
-	if err != nil {
-        fmt.Println(err.Error())
-        return
-    }
-
-	fmt.Println(string(gitPushStdOut))
+	executeGitRemote(*gitRemote, *gitBranch)
 }
 
