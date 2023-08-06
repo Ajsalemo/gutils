@@ -19,7 +19,7 @@ func executeGitAdd() {
 
 	err := gitAdd.Run()
 	if err != nil {
-		log.Fatalf("git add failed: %s", err)
+		log.Fatalf("executeGitAdd() failed: %s", err)
 	}
 }
 
@@ -31,7 +31,7 @@ func executeGitCommit(commitMessage string) {
 
 	err := gitCommit.Run()
 	if err != nil {
-		log.Fatalf("git add failed: %s", err)
+		log.Fatalf("executeGitCommit() failed: %s", err)
 	}
 }
 
@@ -43,7 +43,7 @@ func executeGitPush(gitRemote string, gitBranch string) {
 
 	err := gitPush.Run()
 	if err != nil {
-		log.Fatalf("git add failed: %s", err)
+		log.Fatalf("executeGitPush() failed: %s", err)
 	}
 }
 
