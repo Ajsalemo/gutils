@@ -11,7 +11,7 @@ import (
 )
 
 func executeGitAdd() {
-	fmt.Println("\n")
+	fmt.Println("v1.0")
 	// git add .
 	gitAdd := exec.Command("git", "add", ".")
 	gitAdd.Stdout = os.Stdout
@@ -38,7 +38,6 @@ func executeGitCommit(commitMessage string) {
 func executeGitPush(gitRemote string, gitBranch string) {
 	// git push [remote] [branch]
 	gitPush := exec.Command("git", "push", gitRemote, gitBranch)
-
 	gitPush.Stdout = os.Stdout
 	gitPush.Stderr = os.Stderr
 
@@ -49,6 +48,7 @@ func executeGitPush(gitRemote string, gitBranch string) {
 }
 
 func main() {
+	// Documentation reference: https://github.com/common-nighthawk/go-figure
 	myFigure := figure.NewColorFigure("gutils", "", "blue", true)
 	myFigure.Print()
 	// Define a flag for the commit message to git
