@@ -32,7 +32,7 @@ func executeGitCommit(commitMessage string) {
 	}
 }
 
-func executeGitRemote(gitRemote string, gitBranch string) {
+func executeGitPush(gitRemote string, gitBranch string) {
 	// git push [remote] [branch]
 	gitPush := exec.Command("git", "push", gitRemote, gitBranch)
 
@@ -62,6 +62,6 @@ func main() {
 	// git commit [commit message] 
 	executeGitCommit(*commitMessage)
 	// git push [remote] [branch]
-	executeGitRemote(*gitRemote, *gitBranch)
+	executeGitPush(*gitRemote, *gitBranch)
 }
 
