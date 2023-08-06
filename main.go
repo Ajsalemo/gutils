@@ -11,7 +11,6 @@ import (
 func executeGitAdd() {
 	// git add .
 	gitAdd := exec.Command("git", "add", ".")
-
 	gitAdd.Stdout = os.Stdout
 	gitAdd.Stderr = os.Stderr
 
@@ -19,6 +18,19 @@ func executeGitAdd() {
 	if err != nil {
 		log.Fatalf("git add failed: %s", err)
 	}
+}
+
+func executeGitCommit(commitMessage string) {
+	// git commit [commit message] 
+	gitCommit := exec.Command("git", "commit", "-m", commitMessage)
+	gitCommit.Stdout = os.Stdout
+	gitCommit.Stderr = os.Stderr
+
+	err := gitCommit.Run()
+	if err != nil {
+		log.Fatalf("git add failed: %s", err)
+	}
+
 }
 
 func main() {
@@ -40,20 +52,9 @@ func main() {
 	// git add .
 	executeGitAdd()
 	// git commit [commit message] 
-	gitCommit := exec.Command("git", "commit", "-m", *commitMessage)
+	executeGitCommit(*commitMessage)
 	// git push [remote] [branch]
 	gitPush := exec.Command("git", "push", *gitRemote, *gitBranch)
-
-
-
-	gitCommitStdOut, err := gitCommit.Output()
-
-	if err != nil {
-        fmt.Println(err.Error())
-        return
-    }
-
-	fmt.Println(string(gitCommitStdOut))
 
 	gitPushStdOut, err := gitPush.Output()
 
