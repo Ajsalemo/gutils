@@ -2,14 +2,16 @@ package main
 
 import (
 	"flag"
+	"fmt"
+	"log"
 	"os"
 	"os/exec"
-	"log"
-	
+
 	"github.com/common-nighthawk/go-figure"
 )
 
 func executeGitAdd() {
+	fmt.Println("\n")
 	// git add .
 	gitAdd := exec.Command("git", "add", ".")
 	gitAdd.Stdout = os.Stdout
@@ -47,7 +49,7 @@ func executeGitPush(gitRemote string, gitBranch string) {
 }
 
 func main() {
-	myFigure := figure.NewFigure("gutils", "", true)
+	myFigure := figure.NewColorFigure("gutils", "", "cyan", true)
 	myFigure.Print()
 	// Define a flag for the commit message to git
 	commitMessage := flag.String("c", "initial commit", "A commit message - defaults to 'initial commit'")
