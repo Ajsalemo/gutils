@@ -28,16 +28,14 @@ func executeGitCommit(commitMessage string) {
 	// git commit [commit message]
 	gitCommit := exec.Command("git", "commit", "-m", commitMessage)
 	out, err := gitCommit.Output()
-	// Check if gitCommit.Output() returns an error - return types from this function is []byte and error
-	// if e != nil {
-	// 	log.Fatalf("executeGitCommit() [gitCommit.Output()] failed: %s", e)
-	// }
-
+	// Check if we push a commit where nothing is going to be commited to the branch
+	// This is returned as an error - but we want to clean up the output of this and present this in less of a critical manner
 	if strings.Contains(string(out), "nothing to commit, working tree clean") {
 		fmt.Println("enter")
+		fmt.Println(string(out))
+		os.Exit(0)
 	}
 
-	// err := gitCommit.Run()
 	if err != nil {
 		log.Fatalf("executeGitCommit() failed: %s", err)
 	}
