@@ -43,11 +43,9 @@ func executeGitCommit(commitMessage string) {
 
 func executeGitPush(gitRemote string, gitBranch string) {
 	// git push [remote] [branch]
-	gitPush := exec.Command("git", "push", gitRemote, gitBranch)
-	gitPush.Stdout = os.Stdout
-	gitPush.Stderr = os.Stderr
+	out, err := exec.Command("git", "push", gitRemote, gitBranch).CombinedOutput()
 
-	err := gitPush.Run()
+	fmt.Println(string(out))
 	if err != nil {
 		log.Fatalf("executeGitPush() failed: %s", err)
 	}
