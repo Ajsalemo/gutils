@@ -14,11 +14,9 @@ import (
 func executeGitAdd() {
 	fmt.Println("\n")
 	// git add .
-	gitAdd := exec.Command("git", "add", ".")
-	gitAdd.Stdout = os.Stdout
-	gitAdd.Stderr = os.Stderr
+	out, err := exec.Command("git", "add", ".").CombinedOutput()
 
-	err := gitAdd.Run()
+	fmt.Println(string(out))
 	if err != nil {
 		log.Fatalf("executeGitAdd() failed: %s", err)
 	}
@@ -36,7 +34,7 @@ func executeGitCommit(commitMessage string) {
 		// Call exit(0)
 		os.Exit(0)
 	}
-
+	// We put this after the first if statement so we don't duplicate stdout
 	fmt.Println(string(out))
 	if err != nil {
 		log.Fatalf("executeGitCommit() failed: %s", err)
