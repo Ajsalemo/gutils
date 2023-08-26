@@ -27,17 +27,17 @@ func executeGitAdd() {
 func executeGitCommit(commitMessage string) {
 	// git commit [commit message]
 	gitCommit := exec.Command("git", "commit", "-m", commitMessage)
-	out, e := gitCommit.Output()
+	out, err := gitCommit.Output()
 	// Check if gitCommit.Output() returns an error - return types from this function is []byte and error
-	if e != nil {
-		log.Fatalf("executeGitCommit() [gitCommit.Output()] failed: %s", e)
-	}
+	// if e != nil {
+	// 	log.Fatalf("executeGitCommit() [gitCommit.Output()] failed: %s", e)
+	// }
 
 	if strings.Contains(string(out), "nothing to commit, working tree clean") {
-		return
+		fmt.Println("enter")
 	}
 
-	err := gitCommit.Run()
+	// err := gitCommit.Run()
 	if err != nil {
 		log.Fatalf("executeGitCommit() failed: %s", err)
 	}
