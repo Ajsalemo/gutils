@@ -28,6 +28,9 @@ func executeGitCommit(commitMessage string) {
 	gitCommit := exec.Command("git", "commit", "-m", commitMessage)
 	gitCommit.Stdout = os.Stdout
 	gitCommit.Stderr = os.Stderr
+	t := gitCommit.Stdout
+	fmt.Println(t)
+	fmt.Println("T")
 
 	err := gitCommit.Run()
 	// Check if we push a commit where nothing is going to be commited to the branch
