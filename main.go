@@ -4,7 +4,9 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"os"
 	"os/exec"
+	"strings"
 
 	"github.com/common-nighthawk/go-figure"
 )
@@ -12,9 +14,11 @@ import (
 func executeGitAdd() {
 	fmt.Println("\n")
 	// git add .
-	out, err := exec.Command("git", "add", ".").Output()
-	fmt.Printf("executeGitAdd() stdout: %v \n", string(out))
+	gitAdd := exec.Command("git", "add", ".")
+	gitAdd.Stdout = os.Stdout
+	gitAdd.Stderr = os.Stderr
 
+	err := gitAdd.Run()
 	if err != nil {
 		log.Fatalf("executeGitAdd() failed: %s", err)
 	}
@@ -22,9 +26,18 @@ func executeGitAdd() {
 
 func executeGitCommit(commitMessage string) {
 	// git commit [commit message]
-	out, err := exec.Command("git", "commit", "-m", commitMessage).Output()
-	fmt.Printf("executeGitCommit() stdout: %v \n", string(out))
+	gitCommit := exec.Command("git", "commit", "-m", commitMessage)
+	out, e := gitCommit.Output()
+	// Check if gitCommit.Output() returns an error - return types from this function is []byte and error
+	if e != nil {
+		log.Fatalf("executeGitCommit() [gitCommit.Output()] failed: %s", e)
+	}
 
+	if strings.Contains(string(out), "nothing to commit, working tree clean") {
+		return
+	}
+
+	err := gitCommit.Run()
 	if err != nil {
 		log.Fatalf("executeGitCommit() failed: %s", err)
 	}
@@ -32,9 +45,11 @@ func executeGitCommit(commitMessage string) {
 
 func executeGitPush(gitRemote string, gitBranch string) {
 	// git push [remote] [branch]
-	out, err := exec.Command("git", "push", gitRemote, gitBranch).Output()
-	fmt.Printf("executeGitPush() stdout: %v \n", string(out))
+	gitPush := exec.Command("git", "push", gitRemote, gitBranch)
+	gitPush.Stdout = os.Stdout
+	gitPush.Stderr = os.Stderr
 
+	err := gitPush.Run()
 	if err != nil {
 		log.Fatalf("executeGitPush() failed: %s", err)
 	}
