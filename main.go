@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"strings"
 
 	"github.com/common-nighthawk/go-figure"
 )
@@ -25,23 +26,17 @@ func executeGitAdd() {
 
 func executeGitCommit(commitMessage string) {
 	// git commit -m [commit message]
-	gitCommit := exec.Command("git", "commit", "-m", commitMessage)
-	gitCommit.Stdout = os.Stdout
-	gitCommit.Stderr = os.Stderr
-	t := gitCommit.Stdout
-	fmt.Println(t)
-	fmt.Println("T")
+	out, err := exec.Command("git", "commit", "-m", commitMessage).CombinedOutput()
 
-	err := gitCommit.Run()
 	// Check if we push a commit where nothing is going to be commited to the branch
 	// This is returned as an error - but we want to clean up the output of this and present this in less of a critical manner
 	// Therefor we return from those messages as exit(0) - which is fine and mimics normal Git behavior
-	// if strings.Contains(string(err.Error()), "nothing to commit, working tree clean") {
-	// 	// If the bool is true, log out the message in full to stdout still
-	// 	fmt.Println(string(err.Error()))
-	// 	// Call exit(0)
-	// 	os.Exit(0)
-	// }
+	if strings.Contains(string(out), "nothing to commit, working tree clean") {
+		// If the bool is true, log out the message in full to stdout still
+		fmt.Println(string(out))
+		// Call exit(0)
+		os.Exit(0)
+	}
 
 	if err != nil {
 		log.Fatalf("executeGitCommit() failed: %s", err)
