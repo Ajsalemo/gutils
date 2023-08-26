@@ -24,11 +24,12 @@ func executeGitAdd() {
 }
 
 func executeGitCommit(commitMessage string) {
-	// git commit [commit message] 
+	// git commit [commit message]
 	gitCommit := exec.Command("git", "commit", "-m", commitMessage)
 	gitCommit.Stdout = os.Stdout
 	gitCommit.Stderr = os.Stderr
 
+	fmt.Printf("executeGitCommit() stdout: %s \n", gitCommit.Stdout)
 	err := gitCommit.Run()
 	if err != nil {
 		log.Fatalf("executeGitCommit() failed: %s", err)
@@ -63,9 +64,8 @@ func main() {
 	// flags package expects pointers back to the original values
 	// git add .
 	executeGitAdd()
-	// git commit [commit message] 
+	// git commit [commit message]
 	executeGitCommit(*commitMessage)
 	// git push [remote] [branch]
 	executeGitPush(*gitRemote, *gitBranch)
 }
-
