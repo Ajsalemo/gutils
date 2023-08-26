@@ -25,14 +25,10 @@ func executeGitAdd() {
 
 func executeGitCommit(commitMessage string) {
 	// git commit [commit message]
-	gitCommit := exec.Command("git", "commit", "-m", commitMessage)
-	gitCommit.Stdout = os.Stdout
-	gitCommit.Stderr = os.Stderr
+	out, err := exec.Command("git", "commit", "-m", commitMessage).Output()
 
-	fmt.Printf("executeGitCommit() stdout: %v \n", gitCommit.Stdout)
-	fmt.Printf("executeGitCommit() stderr: %v \n", gitCommit.Stderr)
+	fmt.Printf("executeGitCommit() stdout: %v \n", string(out))
 
-	err := gitCommit.Run()
 	if err != nil {
 		log.Fatalf("executeGitCommit() failed: %s", err)
 	}
