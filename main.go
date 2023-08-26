@@ -4,7 +4,6 @@ import (
 	"flag"
 	"fmt"
 	"log"
-	"os"
 	"os/exec"
 
 	"github.com/common-nighthawk/go-figure"
@@ -13,11 +12,9 @@ import (
 func executeGitAdd() {
 	fmt.Println("\n")
 	// git add .
-	gitAdd := exec.Command("git", "add", ".")
-	gitAdd.Stdout = os.Stdout
-	gitAdd.Stderr = os.Stderr
+	out, err := exec.Command("git", "add", ".").Output()
+	fmt.Printf("executeGitAdd() stdout: %v \n", string(out))
 
-	err := gitAdd.Run()
 	if err != nil {
 		log.Fatalf("executeGitAdd() failed: %s", err)
 	}
@@ -26,7 +23,6 @@ func executeGitAdd() {
 func executeGitCommit(commitMessage string) {
 	// git commit [commit message]
 	out, err := exec.Command("git", "commit", "-m", commitMessage).Output()
-
 	fmt.Printf("executeGitCommit() stdout: %v \n", string(out))
 
 	if err != nil {
@@ -36,11 +32,9 @@ func executeGitCommit(commitMessage string) {
 
 func executeGitPush(gitRemote string, gitBranch string) {
 	// git push [remote] [branch]
-	gitPush := exec.Command("git", "push", gitRemote, gitBranch)
-	gitPush.Stdout = os.Stdout
-	gitPush.Stderr = os.Stderr
+	out, err := exec.Command("git", "push", gitRemote, gitBranch).Output()
+	fmt.Printf("executeGitPush() stdout: %v \n", string(out))
 
-	err := gitPush.Run()
 	if err != nil {
 		log.Fatalf("executeGitPush() failed: %s", err)
 	}
