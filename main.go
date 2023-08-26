@@ -29,7 +29,7 @@ func executeGitCommit(commitMessage string) {
 	gitCommit.Stdout = os.Stdout
 	gitCommit.Stderr = os.Stderr
 
-	fmt.Printf("executeGitCommit() stdout: %s \n", gitCommit.Stdout)
+	fmt.Println("executeGitCommit() stdout: ")
 	err := gitCommit.Run()
 	if err != nil {
 		log.Fatalf("executeGitCommit() failed: %s", err)
