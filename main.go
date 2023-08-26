@@ -26,10 +26,10 @@ func executeGitAdd() {
 func executeGitCommit(commitMessage string) {
 	// git commit [commit message]
 	gitCommit := exec.Command("git", "commit", "-m", commitMessage)
-	gitCommit.Stdout = os.Stdout
-	gitCommit.Stderr = os.Stderr
+	// gitCommit.Stdout = os.Stdout
+	// gitCommit.Stderr = os.Stderr
 
-	log.Default().Println("executeGitCommit() stdout: ")
+	fmt.Println("executeGitCommit() stdout: ")
 	err := gitCommit.Run()
 	if err != nil {
 		log.Fatalf("executeGitCommit() failed: %s", err)
