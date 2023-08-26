@@ -27,7 +27,7 @@ func executeGitAdd() {
 func executeGitCommit(commitMessage string) {
 	// git commit -m [commit message]
 	gitCommit := exec.Command("git", "commit", "-m", commitMessage)
-	out, err := gitCommit.Output()
+	out, _ := gitCommit.Output()
 	// Check if we push a commit where nothing is going to be commited to the branch
 	// This is returned as an error - but we want to clean up the output of this and present this in less of a critical manner
 	// Therefor we return from those messages as exit(0) - which is fine and mimics normal Git behavior
@@ -38,6 +38,7 @@ func executeGitCommit(commitMessage string) {
 		os.Exit(0)
 	}
 
+	err := gitCommit.Run()
 	if err != nil {
 		log.Fatalf("executeGitCommit() failed: %s", err)
 	}
