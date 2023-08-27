@@ -45,7 +45,7 @@ func executeGitPush(gitRemote string, gitBranch string) {
 	// git push [remote] [branch]
 	gitPush := exec.Command("git", "push", gitRemote, gitBranch)
 	out, err := gitPush.CombinedOutput()
-	fmt.Println(out)
+	fmt.Println(string(out))
 	gitPush.Wait()
 
 	if err != nil {
