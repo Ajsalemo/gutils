@@ -53,7 +53,6 @@ func executeGitPush(gitRemote string, gitBranch string) {
 		fmt.Println(scanner.Text())
 	}
 
-	gitPush.Wait()
 	if err != nil {
 		log.Fatalf("executeGitPush() failed: %s", err)
 	}
