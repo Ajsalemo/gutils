@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"flag"
 	"fmt"
 	"log"
@@ -44,9 +45,13 @@ func executeGitCommit(commitMessage string) {
 func executeGitPush(gitRemote string, gitBranch string) {
 	// git push [remote] [branch]
 	gitPush := exec.Command("git", "push", gitRemote, gitBranch)
-	out, err := gitPush.CombinedOutput()
+	out, err := gitPush.StdoutPipe()
 
-	fmt.Println(string(out))
+	scanner := bufio.NewScanner(out)
+
+	for scanner.Scan() {
+		fmt.Println(scanner.Text())
+	}
 
 	gitPush.Wait()
 	if err != nil {
