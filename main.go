@@ -48,7 +48,7 @@ func executeGitPush(gitRemote string, gitBranch string) {
 	gitPush.Stdout = os.Stdout
 	gitPush.Stderr = os.Stderr
 
-	err := gitPush.Err
+	err := gitPush.Run()
 
 	if err != nil {
 		log.Fatalf("executeGitPush() failed: %s", err)
