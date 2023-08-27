@@ -44,10 +44,11 @@ func executeGitCommit(commitMessage string) {
 func executeGitPush(gitRemote string, gitBranch string) {
 	// git push [remote] [branch]
 	gitPush := exec.Command("git", "push", gitRemote, gitBranch)
-
+	// Reassign command output to os output streams
 	gitPush.Stdout = os.Stdout
 	gitPush.Stderr = os.Stderr
-
+	// Runs the command
+	// Redirecting command stdout to os stdout captures all output for "git push" whereas CombinedOut() only grabs the last line ran
 	err := gitPush.Run()
 
 	if err != nil {
